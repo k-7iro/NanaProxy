@@ -1,0 +1,4 @@
+name: NanaProxy
+version: '${project.version}'
+main: net.nanairodev.knana.nanaproxy.NanaProxy
+author: K-Nana

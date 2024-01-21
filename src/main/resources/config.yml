@@ -1,0 +1,10 @@
+# NanaProxy By K-Nana
+Language: "en_us"
+PlayerMessages:
+  Enable: true
+LogMessages:
+  Enable: true
+LobbyServer:
+  ServerID: "lobby"
+  SendOnKick: true
+  Command: true

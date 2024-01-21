@@ -1,0 +1,15 @@
+BroadcastMessages:
+  JoinNetwork: "§e%1$s§bがネットワークに参加しました"
+  LeaveNetwork: "§e%1$s§bがネットワークから切断しました"
+  MoveServer: "§e%1$s§bが§a%2$s§bに参加しました"
+LogMessages:
+  JoinNetwork: "%1$sがネットワークに参加しました"
+  LeaveNetwork: "%1$sがネットワークから切断しました"
+  MoveServer: "%1$sが%2$sに参加しました"
+CommandMessages:
+  Move: "§a%1$s§eに移動中です..."
+  Failed: "§cあなたはすでに§a%1$s§cにいます。"
+  Disabled: "§cこのコマンドは無効化されています。"
+  Console: "§cコンソールはこのコマンドを使用できません。"
+OtherMessages:
+  MoveByKick: "§cサーバーからキックされました。§a%1$s§6に移動中です..."
