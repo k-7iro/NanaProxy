@@ -22,6 +22,7 @@ public class Core extends Command {
     private static final HashMap<String, Configuration> langs = new HashMap<>();
     public Core(net.nanairodev.knana.nanaproxy.NanaProxy plugin) {
         super("nanaproxy", "nanaproxy.admin", "nproxy", "np");
+        Core.plugin = plugin;
         try {
             config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
             File lFolder = new File(plugin.getDataFolder(), "lang");
