@@ -8,8 +8,11 @@ LogMessages:
   MoveServer: "%1$sが%2$sに参加しました"
 CommandMessages:
   Move: "§a%1$s§eに移動中です..."
-  Failed: "§cあなたはすでに§a%1$s§cにいます。"
+  MoveFailed: "§cあなたはすでに§a%1$s§cにいます。"
   Disabled: "§cこのコマンドは無効化されています。"
-  Console: "§cコンソールはこのコマンドを使用できません。"
+  ConsoleCantUse: "§cコンソールはこのコマンドを使用できません。"
+  Reloaded: "§a再読み込みが完了しました。"
+  Unknown: "§c不明なコマンドです。"
+  Error: "§cエラーが発生しました。"
 OtherMessages:
   MoveByKick: "§cサーバーからキックされました。§a%1$s§6に移動中です..."

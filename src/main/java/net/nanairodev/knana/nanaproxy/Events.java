@@ -33,7 +33,7 @@ public class Events implements Listener {
         }
     }
 
-    public static void reload() {
+    public static void reload() throws IOException {
         try {
             config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
             File lFolder = new File(plugin.getDataFolder(), "lang");

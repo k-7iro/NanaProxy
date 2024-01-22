@@ -6,7 +6,7 @@ import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 import net.nanairodev.knana.nanaproxy.commands.Lobby;
-import net.nanairodev.knana.nanaproxy.commands.MainCommand;
+import net.nanairodev.knana.nanaproxy.commands.Core;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -50,7 +50,7 @@ public final class NanaProxy extends Plugin {
         }
         ProxyServer.getInstance().getPluginManager().registerListener(this, new Events(this));
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new Lobby(this));
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new MainCommand(this));
+        ProxyServer.getInstance().getPluginManager().registerCommand(this, new Core(this));
         Metrics metrics = new Metrics(this, 20738);
         metrics.addCustomChart(new Metrics.SimplePie("used_language", () -> config.getString("Language", "unknown")));
         ProxyServer.getInstance().getLogger().info("[NanaProxy] Successful Loaded NanaProxy!");

@@ -8,17 +8,32 @@ import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
+import net.nanairodev.knana.nanaproxy.Events;
+import net.nanairodev.knana.nanaproxy.NanaProxy;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class MainCommand extends Command {
-    private final Configuration config;
-    private final HashMap<String, Configuration> langs = new HashMap<>();
-    public MainCommand(net.nanairodev.knana.nanaproxy.NanaProxy plugin) {
-        super("lobby", null, "hub");
+public class Core extends Command {
+    private static Configuration config = null;
+    private static NanaProxy plugin = null;
+    private static final HashMap<String, Configuration> langs = new HashMap<>();
+    public Core(net.nanairodev.knana.nanaproxy.NanaProxy plugin) {
+        super("nanaproxy", "nanaproxy.admin", "nproxy", "np");
+        try {
+            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
+            File lFolder = new File(plugin.getDataFolder(), "lang");
+            for (File lFile : Objects.requireNonNull(lFolder.listFiles())) {
+                langs.put(lFile.getName().split("\\.(?=[^\\.]+$)")[0], ConfigurationProvider.getProvider(YamlConfiguration.class).load(lFile));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void reload() throws IOException {
         try {
             config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
             File lFolder = new File(plugin.getDataFolder(), "lang");
@@ -40,19 +55,20 @@ public class MainCommand extends Command {
     public void execute(CommandSender sender, String[] args) {
         if ((sender instanceof ProxiedPlayer)) {
             ProxiedPlayer player = (ProxiedPlayer) sender;
-            if (config.getBoolean("LobbyServer.Command")) {
-                if (player.getServer().getInfo().getName().equals(config.getString("LobbyServer.ServerID"))) {
-                    TextComponent msg = new TextComponent(getLocaleMessage("CommandMessages.Failed", config.getString("LobbyServer.ServerID")));
-                    player.sendMessage(msg);
-                } else {
-                    TextComponent msg = new TextComponent(getLocaleMessage("CommandMessages.Move", config.getString("LobbyServer.ServerID")));
-                    player.sendMessage(msg);
-                    player.connect(ProxyServer.getInstance().getServerInfo(config.getString("LobbyServer.ServerID")));
+            TextComponent msg;
+            if (args[0].equals("reload")) {
+                try {
+                    Events.reload();
+                    Lobby.reload();
+                    Core.reload();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                msg = new TextComponent(getLocaleMessage("CommandMessages.Reloaded", ""));
             } else {
-                TextComponent msg = new TextComponent(getLocaleMessage("CommandMessages.Disabled", ""));
-                player.sendMessage(msg);
+                msg = new TextComponent(getLocaleMessage("CommandMessages.Unknown", ""));
             }
+            player.sendMessage(msg);
         } else {
             ProxyServer.getInstance().getLogger().info(getLocaleMessage("CommandMessages.Console", ""));
         }

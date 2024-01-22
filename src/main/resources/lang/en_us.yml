@@ -8,8 +8,11 @@ LogMessages:
   MoveServer: "%1$s has Joined %2$s"
 CommandMessages:
   Move: "§eConnecting §a%1$s§e..."
-  Failed: "§cYou are already in the §a%1$s§e."
+  MoveFailed: "§cYou are already in the §a%1$s§e."
   Disabled: "§cThis command is disabled."
-  Console: "§cConsole Can't use this Command."
+  ConsoleCantUse: "§cConsole Can't use this Command."
+  Reloaded: "§aSuccessfully Reloaded Plugin."
+  Unknown: "§cUnknown Command."
+  Error: "§cAn Error has occurred."
 OtherMessages:
   MoveByKick: "§cYou were Kicked from Server. §6Connecting §a%1$s§b6..."
