@@ -16,9 +16,11 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class Events implements Listener {
-    private final Configuration config;
-    private final HashMap<String, Configuration> langs = new HashMap<>();
+    private static NanaProxy plugin = null;
+    private static Configuration config = null;
+    private static final HashMap<String, Configuration> langs = new HashMap<>();
     public Events(NanaProxy plugin) {
+        Events.plugin = plugin;
         try {
             config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
             File lFolder = new File(plugin.getDataFolder(), "lang");
@@ -31,6 +33,18 @@ public class Events implements Listener {
         }
     }
 
+    public static void reload() {
+        try {
+            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
+            File lFolder = new File(plugin.getDataFolder(), "lang");
+            for (File lFile : Objects.requireNonNull(lFolder.listFiles())) {
+                langs.put(lFile.getName().split("\\.(?=[^\\.]+$)")[0], ConfigurationProvider.getProvider(YamlConfiguration.class).load(lFile));
+                ProxyServer.getInstance().getLogger().info(String.format("[NanaProxy] Loaded Lang: %s", lFile.getName().split("\\.(?=[^\\.]+$)")[0]));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public String getLocaleMessage(String key, ProxiedPlayer player, String server) {
         String msg = "";
         Configuration lang = langs.get(config.getString("Language"));

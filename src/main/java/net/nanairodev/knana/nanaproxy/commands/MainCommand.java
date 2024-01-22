@@ -1,4 +1,4 @@
-package net.nanairodev.knana.nanaproxy;
+package net.nanairodev.knana.nanaproxy.commands;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -14,10 +14,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class Lobby extends Command {
+public class MainCommand extends Command {
     private final Configuration config;
     private final HashMap<String, Configuration> langs = new HashMap<>();
-    public Lobby(NanaProxy plugin) {
+    public MainCommand(net.nanairodev.knana.nanaproxy.NanaProxy plugin) {
         super("lobby", null, "hub");
         try {
             config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
