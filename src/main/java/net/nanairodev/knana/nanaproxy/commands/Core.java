@@ -24,11 +24,7 @@ public class Core extends Command {
         super("nanaproxy", "nanaproxy.admin", "nproxy", "np");
         Core.plugin = plugin;
         try {
-            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
-            File lFolder = new File(plugin.getDataFolder(), "lang");
-            for (File lFile : Objects.requireNonNull(lFolder.listFiles())) {
-                langs.put(lFile.getName().split("\\.(?=[^\\.]+$)")[0], ConfigurationProvider.getProvider(YamlConfiguration.class).load(lFile));
-            }
+            reload();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -57,7 +53,9 @@ public class Core extends Command {
         if ((sender instanceof ProxiedPlayer)) {
             ProxiedPlayer player = (ProxiedPlayer) sender;
             TextComponent msg;
-            if (args[0].equals("reload")) {
+            if (args.length == 0) {
+                msg = new TextComponent(getLocaleMessage("CommandMessages.Info", plugin.getDescription().getVersion()));
+            } else if (args[0].equals("reload")) {
                 try {
                     Events.reload();
                     Lobby.reload();
@@ -71,7 +69,22 @@ public class Core extends Command {
             }
             player.sendMessage(msg);
         } else {
-            ProxyServer.getInstance().getLogger().info(getLocaleMessage("CommandMessages.Console", ""));
+            String msg;
+            if (args.length == 0) {
+                msg = getLocaleMessage("CommandMessages.Info", plugin.getDescription().getVersion());
+            } else if (args[0].equals("reload")) {
+                try {
+                    Events.reload();
+                    Lobby.reload();
+                    Core.reload();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                msg = getLocaleMessage("CommandMessages.Reloaded", "");
+            } else {
+                msg = getLocaleMessage("CommandMessages.Unknown", "");
+            }
+            ProxyServer.getInstance().getLogger().info(msg);
         }
     }
 }

@@ -23,11 +23,7 @@ public class Lobby extends Command {
         super("lobby", null, "hub");
         Lobby.plugin = plugin;
         try {
-            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
-            File lFolder = new File(plugin.getDataFolder(), "lang");
-            for (File lFile : Objects.requireNonNull(lFolder.listFiles())) {
-                langs.put(lFile.getName().split("\\.(?=[^\\.]+$)")[0], ConfigurationProvider.getProvider(YamlConfiguration.class).load(lFile));
-            }
+            reload();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -51,19 +47,19 @@ public class Lobby extends Command {
     public void execute(CommandSender sender, String[] args) {
         if ((sender instanceof ProxiedPlayer)) {
             ProxiedPlayer player = (ProxiedPlayer) sender;
+            TextComponent msg;
             if (config.getBoolean("LobbyServer.Command")) {
                 if (player.getServer().getInfo().getName().equals(config.getString("LobbyServer.ServerID"))) {
-                    TextComponent msg = new TextComponent(getLocaleMessage("CommandMessages.MoveFailed", config.getString("LobbyServer.ServerID")));
-                    player.sendMessage(msg);
+                    msg = new TextComponent(getLocaleMessage("CommandMessages.MoveFailed", config.getString("LobbyServer.ServerID")));
                 } else {
-                    TextComponent msg = new TextComponent(getLocaleMessage("CommandMessages.Move", config.getString("LobbyServer.ServerID")));
+                    msg = new TextComponent(getLocaleMessage("CommandMessages.Move", config.getString("LobbyServer.ServerID")));
                     player.sendMessage(msg);
                     player.connect(ProxyServer.getInstance().getServerInfo(config.getString("LobbyServer.ServerID")));
                 }
             } else {
-                TextComponent msg = new TextComponent(getLocaleMessage("CommandMessages.Disabled", ""));
-                player.sendMessage(msg);
+                msg = new TextComponent(getLocaleMessage("CommandMessages.Disabled", ""));
             }
+            player.sendMessage(msg);
         } else {
             ProxyServer.getInstance().getLogger().info(getLocaleMessage("CommandMessages.ConsoleCantUse", ""));
         }

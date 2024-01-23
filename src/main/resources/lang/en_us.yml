@@ -11,6 +11,7 @@ CommandMessages:
   MoveFailed: "§cYou are already in the §a%1$s§e."
   Disabled: "§cThis command is disabled."
   ConsoleCantUse: "§cConsole Can't use this Command."
+  Info: "§dNanaProxy §7%1$s : §bBy K-Nana\n§fFor reload plugin, Run §a/np reload"
   Reloaded: "§aSuccessfully Reloaded Plugin."
   Unknown: "§cUnknown Command."
   Error: "§cAn Error has occurred."

@@ -22,12 +22,7 @@ public class Events implements Listener {
     public Events(NanaProxy plugin) {
         Events.plugin = plugin;
         try {
-            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
-            File lFolder = new File(plugin.getDataFolder(), "lang");
-            for (File lFile : Objects.requireNonNull(lFolder.listFiles())) {
-                langs.put(lFile.getName().split("\\.(?=[^\\.]+$)")[0], ConfigurationProvider.getProvider(YamlConfiguration.class).load(lFile));
-                ProxyServer.getInstance().getLogger().info(String.format("[NanaProxy] Loaded Lang: %s", lFile.getName().split("\\.(?=[^\\.]+$)")[0]));
-            }
+            reload();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
