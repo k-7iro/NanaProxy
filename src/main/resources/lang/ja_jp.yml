@@ -11,9 +11,8 @@ CommandMessages:
   MoveFailed: "§cあなたはすでに§a%1$s§cにいます。"
   Disabled: "§cこのコマンドは無効化されています。"
   ConsoleCantUse: "§cコンソールはこのコマンドを使用できません。"
-  Info: "§dNanaProxy §7%1$s : §bBy K-Nana\n§fFor reload plugin, Run §a/np reload"
+  Info: "§dNanaProxy §b%1$s §3By K-Nana\n§fプラグインを再読み込みするには、§a/np reload§fを実行してください。"
   Reloaded: "§a再読み込みが完了しました。"
   Unknown: "§c不明なコマンドです。"
-  Error: "§cエラーが発生しました。"
 OtherMessages:
   MoveByKick: "§cサーバーからキックされました。§a%1$s§6に移動中です..."
