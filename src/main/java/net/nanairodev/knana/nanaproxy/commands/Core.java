@@ -50,40 +50,49 @@ public class Core extends Command {
     }
 
     public void execute(CommandSender sender, String[] args) {
+        String msg = "";
+        if (args.length == 0) {
+            msg = getLocaleMessage("CommandMessages.CoreCommand.Info", plugin.getDescription().getVersion());
+        } else if (args[0].equals("reload")) {
+            try {
+                Events.reload();
+                Lobby.reload();
+                Core.reload();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            msg = getLocaleMessage("CommandMessages.CoreCommand.Reloaded", "");
+        } else if (args[0].equals("kick")) {
+            if (args.length == 1) {
+                msg = getLocaleMessage("CommandMessages.CoreCommand.Reloaded", "");
+            }
+
+        } else if (args[0].equals("ban")) {
+            try {
+                Events.reload();
+                Lobby.reload();
+                Core.reload();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            msg = getLocaleMessage("CommandMessages.CoreCommand.Reloaded", "");
+        } else if (args[0].equals("unban")) {
+            try {
+                Events.reload();
+                Lobby.reload();
+                Core.reload();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            msg = getLocaleMessage("CommandMessages.CoreCommand.Reloaded", "");
+        } else {
+            msg = getLocaleMessage("CommandMessages.CoreCommand.Unknown", "");
+        }
         if ((sender instanceof ProxiedPlayer)) {
             ProxiedPlayer player = (ProxiedPlayer) sender;
-            TextComponent msg;
-            if (args.length == 0) {
-                msg = new TextComponent(getLocaleMessage("CommandMessages.Info", plugin.getDescription().getVersion()));
-            } else if (args[0].equals("reload")) {
-                try {
-                    Events.reload();
-                    Lobby.reload();
-                    Core.reload();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                msg = new TextComponent(getLocaleMessage("CommandMessages.Reloaded", ""));
-            } else {
-                msg = new TextComponent(getLocaleMessage("CommandMessages.Unknown", ""));
-            }
-            player.sendMessage(msg);
+            TextComponent tcmsg = new TextComponent(msg);
+            player.sendMessage(tcmsg);
         } else {
-            String msg;
-            if (args.length == 0) {
-                msg = getLocaleMessage("CommandMessages.Info", plugin.getDescription().getVersion());
-            } else if (args[0].equals("reload")) {
-                try {
-                    Events.reload();
-                    Lobby.reload();
-                    Core.reload();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                msg = getLocaleMessage("CommandMessages.Reloaded", "");
-            } else {
-                msg = getLocaleMessage("CommandMessages.Unknown", "");
-            }
             ProxyServer.getInstance().getLogger().info(msg);
         }
     }

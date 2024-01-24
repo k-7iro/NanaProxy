@@ -50,18 +50,18 @@ public class Lobby extends Command {
             TextComponent msg;
             if (config.getBoolean("LobbyServer.Command")) {
                 if (player.getServer().getInfo().getName().equals(config.getString("LobbyServer.ServerID"))) {
-                    msg = new TextComponent(getLocaleMessage("CommandMessages.MoveFailed", config.getString("LobbyServer.ServerID")));
+                    msg = new TextComponent(getLocaleMessage("CommandMessages.LobbyCommand.MoveFailed", config.getString("LobbyServer.ServerID")));
                 } else {
-                    msg = new TextComponent(getLocaleMessage("CommandMessages.Move", config.getString("LobbyServer.ServerID")));
+                    msg = new TextComponent(getLocaleMessage("CommandMessages.LobbyCommand.Move", config.getString("LobbyServer.ServerID")));
                     player.sendMessage(msg);
                     player.connect(ProxyServer.getInstance().getServerInfo(config.getString("LobbyServer.ServerID")));
                 }
             } else {
-                msg = new TextComponent(getLocaleMessage("CommandMessages.Disabled", ""));
+                msg = new TextComponent(getLocaleMessage("CommandMessages.LobbyCommand.Disabled", ""));
             }
             player.sendMessage(msg);
         } else {
-            ProxyServer.getInstance().getLogger().info(getLocaleMessage("CommandMessages.ConsoleCantUse", ""));
+            ProxyServer.getInstance().getLogger().info(getLocaleMessage("CommandMessages.LobbyCommand.ConsoleCantUse", ""));
         }
     }
 }

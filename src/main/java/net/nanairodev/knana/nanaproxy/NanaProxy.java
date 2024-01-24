@@ -49,8 +49,10 @@ public final class NanaProxy extends Plugin {
             throw new RuntimeException(e);
         }
         ProxyServer.getInstance().getPluginManager().registerListener(this, new Events(this));
-        ProxyServer.getInstance().getPluginManager().registerCommand(this, new Lobby(this));
         ProxyServer.getInstance().getPluginManager().registerCommand(this, new Core(this));
+        if (config.getBoolean("LobbyServer.Command")) {
+            ProxyServer.getInstance().getPluginManager().registerCommand(this, new Lobby(this));
+        }
         Metrics metrics = new Metrics(this, 20738);
         metrics.addCustomChart(new Metrics.SimplePie("used_language", () -> config.getString("Language", "unknown")));
         ProxyServer.getInstance().getLogger().info("[NanaProxy] Successful Loaded NanaProxy!");

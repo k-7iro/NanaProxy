@@ -7,12 +7,18 @@ LogMessages:
   LeaveNetwork: "%1$s Leaved the Network"
   MoveServer: "%1$s has Joined %2$s"
 CommandMessages:
-  Move: "§eConnecting §a%1$s§e..."
-  MoveFailed: "§cYou are already in the §a%1$s§e."
-  Disabled: "§cThis command is disabled."
-  ConsoleCantUse: "§cConsole Can't use this Command."
-  Info: "§dNanaProxy §b%1$s §3By K-Nana\n§fFor reload plugin, Run §a/np reload"
-  Reloaded: "§aSuccessfully Reloaded Plugin."
-  Unknown: "§cUnknown Command."
+  LobbyCommand:
+    Move: "§eConnecting §a%1$s§e..."
+    MoveFailed: "§cYou are already in the §a%1$s§e."
+    Disabled: "§cThis command is disabled."
+    ConsoleCantUse: "§cConsole Can't use this Command."
+  CoreCommand:
+    Info: "§dNanaProxy §b%1$s §3By K-Nana\n§fFor reload plugin, Run §a/np reload"
+    Kicked: "§eSuccessfully Kicked §6%1$s."
+    Banned: "§eSuccessfully Banned §6%1$s."
+    Unbanned: "§eSuccessfully Unbanned §6%1$s."
+    Reloaded: "§aSuccessfully Reloaded Plugin."
+    Unknown: "§cUnknown Command."
 OtherMessages:
   MoveByKick: "§cYou were Kicked from Server. §6Connecting §a%1$s§b6..."
+  Banned: "§cUnknown Command."

@@ -1,10 +1,10 @@
-# NanaProxy By K-Nana
-Language: "en_us"
+# NanaProxy 3.4 By K-Nana
+Language: "en_us" # By default, en_us and ja_jp are available. You can also register a new language by copying the language file and giving it an appropriate name.
 PlayerMessages:
-  Enable: true
+  Enable: true # Whether to broadcast to all players on the network when joining, disconnect, or moving servers.
 LogMessages:
-  Enable: true
+  Enable: true # Whether to display in the console when joining, disconnecting, or moving a server.
 LobbyServer:
-  ServerID: "lobby"
-  SendOnKick: true
-  Command: true
+  ServerID: "lobby" # The server you are redirected to when using /lobby and /hub or when kicked from the server.
+  SendOnKick: true # Whether to forward to the specified lobby server when kicked.
+  Command: true # Whether to use /lobby and /hub. A reboot is required after changing this config.
