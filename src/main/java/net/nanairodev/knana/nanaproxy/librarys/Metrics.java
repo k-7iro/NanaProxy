@@ -12,7 +12,7 @@
  *
  * Violations will result in a ban of your plugin and account from bStats.
  */
-package net.nanairodev.knana.nanaproxy;
+package net.nanairodev.knana.nanaproxy.librarys;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

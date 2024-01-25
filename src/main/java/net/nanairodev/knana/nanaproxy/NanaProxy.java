@@ -7,6 +7,7 @@ import net.md_5.bungee.config.ConfigurationProvider;
 import net.md_5.bungee.config.YamlConfiguration;
 import net.nanairodev.knana.nanaproxy.commands.Lobby;
 import net.nanairodev.knana.nanaproxy.commands.Core;
+import net.nanairodev.knana.nanaproxy.librarys.Metrics;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -14,14 +15,21 @@ import java.nio.file.Files;
 public final class NanaProxy extends Plugin {
     private Configuration config = null;
 
-    public void makeConfig(String fName) throws IOException {
+    public void makeConfig(String fName, Boolean empty) throws IOException {
         File file = new File(getDataFolder(), fName);
-
         if (!file.exists()) {
-            try (InputStream in = getResourceAsStream(fName)) {
-                Files.copy(in, file.toPath());
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (empty) {
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try (InputStream in = getResourceAsStream(fName)) {
+                    Files.copy(in, file.toPath());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -37,9 +45,10 @@ public final class NanaProxy extends Plugin {
             if (!lFolder.exists()) {
                 lFolder.mkdir();
             }
-            makeConfig("config.yml");
-            makeConfig("lang/ja_jp.yml");
-            makeConfig("lang/en_us.yml");
+            makeConfig("config.yml", false);
+            makeConfig("lang/ja_jp.yml", false);
+            makeConfig("lang/en_us.yml", false);
+            makeConfig("data.yml", true);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

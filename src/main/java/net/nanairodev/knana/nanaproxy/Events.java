@@ -18,6 +18,7 @@ import java.util.Objects;
 public class Events implements Listener {
     private static NanaProxy plugin = null;
     private static Configuration config = null;
+    private static Configuration data = null;
     private static final HashMap<String, Configuration> langs = new HashMap<>();
     public Events(NanaProxy plugin) {
         Events.plugin = plugin;
@@ -31,6 +32,7 @@ public class Events implements Listener {
     public static void reload() throws IOException {
         try {
             config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
+            data = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "data.yml"));
             File lFolder = new File(plugin.getDataFolder(), "lang");
             for (File lFile : Objects.requireNonNull(lFolder.listFiles())) {
                 langs.put(lFile.getName().split("\\.(?=[^\\.]+$)")[0], ConfigurationProvider.getProvider(YamlConfiguration.class).load(lFile));
@@ -40,10 +42,17 @@ public class Events implements Listener {
             throw new RuntimeException(e);
         }
     }
-    public String getLocaleMessage(String key, ProxiedPlayer player, String server) {
+    public String getLocaleMessageWithPlayer(String key, ProxiedPlayer player, String server) {
         String msg = "";
         Configuration lang = langs.get(config.getString("Language"));
         msg = String.format(lang.getString(key), player.getName(), server);
+        return msg;
+    }
+
+    public String getLocaleMessage(String key, String server) {
+        String msg = "";
+        Configuration lang = langs.get(config.getString("Language"));
+        msg = String.format(lang.getString(key), server);
         return msg;
     }
 
@@ -56,38 +65,60 @@ public class Events implements Listener {
 
     @EventHandler
     public void onPostLogin(PostLoginEvent event) {
-        if (config.getBoolean("LogMessages.Enable")) {
-            ProxyServer.getInstance().getLogger().info(getLocaleMessage("LogMessages.JoinNetwork", event.getPlayer(), ""));
-        }
-        if (config.getBoolean("PlayerMessages.Enable")) {
-            broadcast(getLocaleMessage("BroadcastMessages.JoinNetwork", event.getPlayer(), ""));
+        if (data.contains(event.getPlayer().getUniqueId().toString())) {
+            if (data.getBoolean(event.getPlayer().getUniqueId().toString()+".Banned")) {
+                TextComponent reason;
+                if (data.contains(event.getPlayer().getUniqueId().toString()+".BanReason")) {
+                    reason = new TextComponent(getLocaleMessage("BannedWithReason", data.getString(event.getPlayer().getUniqueId().toString()+".BanReason")));
+                    event.getPlayer().disconnect(reason);
+                } else {
+                    reason = new TextComponent(getLocaleMessage("Banned", ""));
+                    event.getPlayer().disconnect(reason);
+                }
+            } else {
+                if (config.getBoolean("LogMessages.Enable")) {
+                    ProxyServer.getInstance().getLogger().info(getLocaleMessageWithPlayer("LogMessages.JoinNetwork", event.getPlayer(), ""));
+                }
+                if (config.getBoolean("PlayerMessages.Enable")) {
+                    broadcast(getLocaleMessageWithPlayer("BroadcastMessages.JoinNetwork", event.getPlayer(), ""));
+                }
+            }
+        } else {
+            data.set(event.getPlayer().getUniqueId().toString()+".Banned", false);
+            data.set(event.getPlayer().getUniqueId().toString()+".Name", event.getPlayer().getName());
+            if (config.getBoolean("LogMessages.Enable")) {
+                ProxyServer.getInstance().getLogger().info(getLocaleMessageWithPlayer("LogMessages.JoinNetwork", event.getPlayer(), ""));
+            }
+            if (config.getBoolean("PlayerMessages.Enable")) {
+                broadcast(getLocaleMessageWithPlayer("BroadcastMessages.JoinNetwork", event.getPlayer(), ""));
+            }
         }
     }
 
     @EventHandler
     public void onDisconnect(PlayerDisconnectEvent event) {
         if (config.getBoolean("LogMessages.Enable")) {
-            ProxyServer.getInstance().getLogger().info(getLocaleMessage("LogMessages.LeaveNetwork", event.getPlayer(), ""));
+            ProxyServer.getInstance().getLogger().info(getLocaleMessageWithPlayer("LogMessages.LeaveNetwork", event.getPlayer(), ""));
         }
         if (config.getBoolean("PlayerMessages.Enable")) {
-            broadcast(getLocaleMessage("BroadcastMessages.LeaveNetwork", event.getPlayer(), ""));
+            broadcast(getLocaleMessageWithPlayer("BroadcastMessages.LeaveNetwork", event.getPlayer(), ""));
         }
     }
 
     @EventHandler
     public void onSvrConnect(ServerConnectedEvent event) {
         if (config.getBoolean("LogMessages.Enable")) {
-            ProxyServer.getInstance().getLogger().info(getLocaleMessage("LogMessages.MoveServer", event.getPlayer(), event.getServer().getInfo().getName()));
+            ProxyServer.getInstance().getLogger().info(getLocaleMessageWithPlayer("LogMessages.MoveServer", event.getPlayer(), event.getServer().getInfo().getName()));
         }
         if (config.getBoolean("PlayerMessages.Enable")) {
-            broadcast(getLocaleMessage("BroadcastMessages.MoveServer", event.getPlayer(), event.getServer().getInfo().getName()));
+            broadcast(getLocaleMessageWithPlayer("BroadcastMessages.MoveServer", event.getPlayer(), event.getServer().getInfo().getName()));
         }
     }
 
     @EventHandler
     public void onSvrKick(ServerKickEvent event) {
         if ((config.getBoolean("LobbyServer.SendOnKick") && (!event.getKickedFrom().getName().equals(config.getString("LobbyServer.ServerID"))))) {
-            TextComponent msg = new TextComponent(getLocaleMessage("BroadcastMessages.MoveServer", event.getPlayer(), config.getString("LobbyServer.ServerID")));
+            TextComponent msg = new TextComponent(getLocaleMessageWithPlayer("BroadcastMessages.MoveServer", event.getPlayer(), config.getString("LobbyServer.ServerID")));
             event.getPlayer().sendMessage(msg);
             event.setCancelServer(ProxyServer.getInstance().getServerInfo(config.getString("LobbyServer.ServerID")));
             event.setCancelled(true);

@@ -19,6 +19,11 @@ CommandMessages:
     Unbanned: "§eSuccessfully Unbanned §6%1$s."
     Reloaded: "§aSuccessfully Reloaded Plugin."
     Unknown: "§cUnknown Command."
+    MissingPlayer: "§cPlease specify a player."
+    UnknownPlayer: "§cPlayer §6%1$s§c does not exist."
 OtherMessages:
   MoveByKick: "§cYou were Kicked from Server. §6Connecting §a%1$s§b6..."
-  Banned: "§cUnknown Command."
+  Banned: "§cYou're Banned from Network!"
+  Kicked: "§cYou're Kicked from Network!"
+  BannedWithReason: "§cYou're Banned from Network!\n§fReason: %1$s"
+  KickedWithReason: "§cYou're Kicked from Network!\n§fReason: %1$s"

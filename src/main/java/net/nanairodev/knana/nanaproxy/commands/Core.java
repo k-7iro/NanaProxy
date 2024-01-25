@@ -64,27 +64,33 @@ public class Core extends Command {
             msg = getLocaleMessage("CommandMessages.CoreCommand.Reloaded", "");
         } else if (args[0].equals("kick")) {
             if (args.length == 1) {
-                msg = getLocaleMessage("CommandMessages.CoreCommand.Reloaded", "");
+                msg = getLocaleMessage("CommandMessages.CoreCommand.MissingPlayer", "");
+            } else {
+                ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[1]);
+                if (target == null) {
+                    msg = getLocaleMessage("CommandMessages.CoreCommand.UnknownPlayer", args[1]);
+                } else {
+                    TextComponent kmsg;
+                    if (args.length == 2) {
+                        kmsg = new TextComponent(getLocaleMessage("OtherMessages.Kicked", ""));
+                    } else {
+                        StringBuilder reason = new StringBuilder();
+                        for (int i=2; i<=(args.length-1); i++) {
+                            if (i != 2) {reason.append(" ");}
+                            reason.append(args[i]);
+                        }
+                        kmsg = new TextComponent(getLocaleMessage("OtherMessages.KickedWithReason", reason.toString()));
+                    }
+                    target.disconnect(kmsg);
+                    msg = getLocaleMessage("CommandMessages.CoreCommand.Kicked", args[1]);
+                }
             }
-
         } else if (args[0].equals("ban")) {
-            try {
-                Events.reload();
-                Lobby.reload();
-                Core.reload();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            msg = getLocaleMessage("CommandMessages.CoreCommand.Reloaded", "");
+            // Scheduled to be created in Ver 3.5 or 4.0 :(
+            msg = getLocaleMessage("CommandMessages.CoreCommand.Unknown", "");
         } else if (args[0].equals("unban")) {
-            try {
-                Events.reload();
-                Lobby.reload();
-                Core.reload();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            msg = getLocaleMessage("CommandMessages.CoreCommand.Reloaded", "");
+            // Scheduled to be created in Ver 3.5 or 4.0 :(
+            msg = getLocaleMessage("CommandMessages.CoreCommand.Unknown", "");
         } else {
             msg = getLocaleMessage("CommandMessages.CoreCommand.Unknown", "");
         }
