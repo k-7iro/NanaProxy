@@ -70,7 +70,7 @@ public final class NanaProxy extends Plugin {
     @Override
     public void onDisable() {
         try {
-            ConfigurationProvider.getProvider(YamlConfiguration.class).save(Events.data, new File(getDataFolder(), "config.yml"));
+            ConfigurationProvider.getProvider(YamlConfiguration.class).save(Events.data, new File(getDataFolder(), "data.yml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {

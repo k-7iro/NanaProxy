@@ -21,6 +21,8 @@ CommandMessages:
     Kicked: "§eSuccessfully Kicked §6%1$s."
     Banned: "§eSuccessfully Banned §6%1$s."
     Unbanned: "§eSuccessfully Unbanned §6%1$s."
+    AlreadyBanned: "§6%1$s§c is Already Banned."
+    AlreadyUnbanned: "§6%1$s§c isn't Banned."
     Reloaded: "§aSuccessfully Reloaded Plugin."
     Unknown: "§cUnknown Command."
     MissingPlayer: "§cPlease specify a player."

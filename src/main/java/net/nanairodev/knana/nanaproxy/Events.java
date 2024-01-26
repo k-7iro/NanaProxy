@@ -25,21 +25,17 @@ public class Events implements Listener {
         try {
             reload();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
     public static void reload() throws IOException {
-        try {
-            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
-            data = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "data.yml"));
-            File lFolder = new File(plugin.getDataFolder(), "lang");
-            for (File lFile : Objects.requireNonNull(lFolder.listFiles())) {
-                langs.put(lFile.getName().split("\\.(?=[^\\.]+$)")[0], ConfigurationProvider.getProvider(YamlConfiguration.class).load(lFile));
-                ProxyServer.getInstance().getLogger().info(String.format("[NanaProxy] Loaded Lang: %s", lFile.getName().split("\\.(?=[^\\.]+$)")[0]));
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
+        data = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "data.yml"));
+        File lFolder = new File(plugin.getDataFolder(), "lang");
+        for (File lFile : Objects.requireNonNull(lFolder.listFiles())) {
+            langs.put(lFile.getName().split("\\.(?=[^\\.]+$)")[0], ConfigurationProvider.getProvider(YamlConfiguration.class).load(lFile));
+            ProxyServer.getInstance().getLogger().info(String.format("[NanaProxy] Loaded Lang: %s", lFile.getName().split("\\.(?=[^\\.]+$)")[0]));
         }
     }
     public String getLocaleMessageWithPlayer(String key, ProxiedPlayer player, String server) {
@@ -64,32 +60,37 @@ public class Events implements Listener {
     }
 
     @EventHandler
+    public void onLogin(LoginEvent event) {
+        if (data.contains(event.getConnection().getUniqueId().toString())) {
+            if (data.getBoolean(event.getConnection().getUniqueId().toString() + ".Banned")) {
+                TextComponent reason;
+                if (data.contains(event.getConnection().getUniqueId().toString() + ".BanReason")) {
+                    reason = new TextComponent(getLocaleMessage("OtherMessages.BannedWithReason", data.getString(event.getConnection().getUniqueId().toString() + ".BanReason")));
+                } else {
+                    reason = new TextComponent(getLocaleMessage("OtherMessages.Banned", ""));
+                }
+                event.setCancelReason(reason);
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
     public void onPostLogin(PostLoginEvent event) {
         if (data.contains(event.getPlayer().getUniqueId().toString())) {
-            if (data.getBoolean(event.getPlayer().getUniqueId().toString()+".Banned")) {
-                TextComponent reason;
-                if (data.contains(event.getPlayer().getUniqueId().toString()+".BanReason")) {
-                    reason = new TextComponent(getLocaleMessage("BannedWithReason", data.getString(event.getPlayer().getUniqueId().toString()+".BanReason")));
-                    event.getPlayer().disconnect(reason);
-                } else {
-                    reason = new TextComponent(getLocaleMessage("Banned", ""));
-                    event.getPlayer().disconnect(reason);
-                }
+            String key;
+            String oldName = "";
+            if (data.getString(event.getPlayer().getUniqueId().toString()+".Name").equals(event.getPlayer().getName())) {
+                key = "LogMessages.JoinNetwork";
             } else {
-                String key;
-                String oldName = "";
-                if (data.getString(event.getPlayer().getUniqueId().toString()+".Name").equals(event.getPlayer().getName())) {
-                    key = "LogMessages.JoinNetwork";
-                } else {
-                    key = "LogMessages.NameChanged";
-                    oldName = data.getString(event.getPlayer().getUniqueId().toString()+".Name");
-                }
-                if (config.getBoolean("LogMessages.Enable")) {
-                    ProxyServer.getInstance().getLogger().info(getLocaleMessageWithPlayer(key, event.getPlayer(), oldName));
-                }
-                if (config.getBoolean("PlayerMessages.Enable")) {
-                    broadcast(getLocaleMessageWithPlayer(key, event.getPlayer(), oldName));
-                }
+                key = "LogMessages.NameChanged";
+                oldName = data.getString(event.getPlayer().getUniqueId().toString()+".Name");
+            }
+            if (config.getBoolean("LogMessages.Enable")) {
+                ProxyServer.getInstance().getLogger().info(getLocaleMessageWithPlayer(key, event.getPlayer(), oldName));
+            }
+            if (config.getBoolean("PlayerMessages.Enable")) {
+                broadcast(getLocaleMessageWithPlayer(key, event.getPlayer(), oldName));
             }
         } else {
             data.set(event.getPlayer().getUniqueId().toString()+".Banned", false);

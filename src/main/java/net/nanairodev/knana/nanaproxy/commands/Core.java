@@ -104,19 +104,21 @@ public class Core extends Command {
                 UUID tUUID = SearchUUID(args[1]);
                 if (tUUID == null) {
                     msg = getLocaleMessage("CommandMessages.CoreCommand.UnknownPlayer", args[1]);
+                } else if (Events.data.getBoolean(tUUID +".Banned")) {
+                    msg = getLocaleMessage("CommandMessages.CoreCommand.AlreadyBanned", args[1]);
                 } else {
                     TextComponent btext;
                     ProxiedPlayer target = ProxyServer.getInstance().getPlayer(tUUID);
                     if (args.length == 2) {
-                        btext = new TextComponent(getLocaleMessage("OtherMessages.Kicked", ""));
+                        btext = new TextComponent(getLocaleMessage("OtherMessages.Banned", ""));
                     } else {
                         StringBuilder reason = new StringBuilder();
                         for (int i=2; i<=(args.length-1); i++) {
                             if (i != 2) {reason.append(" ");}
                             reason.append(args[i]);
                         }
-                        Events.data.set(tUUID +".BannedReason", reason.toString());
-                        btext = new TextComponent(getLocaleMessage("OtherMessages.KickedWithReason", reason.toString()));
+                        Events.data.set(tUUID +".BanReason", reason.toString());
+                        btext = new TextComponent(getLocaleMessage("OtherMessages.BannedWithReason", reason.toString()));
                     }
                     if (target != null) {target.disconnect(btext);}
                     Events.data.set(tUUID +".Banned", true);
@@ -130,6 +132,8 @@ public class Core extends Command {
                 UUID tUUID = SearchUUID(args[1]);
                 if (tUUID == null) {
                     msg = getLocaleMessage("CommandMessages.CoreCommand.UnknownPlayer", args[1]);
+                } else if (!Events.data.getBoolean(tUUID +".Banned")) {
+                    msg = getLocaleMessage("CommandMessages.CoreCommand.AlreadyUnbanned", args[1]);
                 } else {
                     Events.data.set(tUUID +".Banned", false);
                     Events.data.set(tUUID +".BannedReason", null);

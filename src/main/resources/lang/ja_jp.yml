@@ -21,6 +21,8 @@ CommandMessages:
     Kicked: "§6%1$s§eをKickしました。"
     Banned: "§6%1$s§eをBanしました。"
     Unbanned: "§6%1$s§eのBanを解除しました。"
+    AlreadyBanned: "§6%1$s§cは既にBanされています。"
+    AlreadyUnbanned: "§6%1$s§cはBanされていません。"
     Reloaded: "§a再読み込みが完了しました。"
     Unknown: "§c不明なコマンドです。"
     MissingPlayer: "§cプレイヤーを指定してください。"
