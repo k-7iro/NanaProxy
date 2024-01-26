@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Core extends Command {
     private static Configuration config = null;
@@ -40,6 +41,17 @@ public class Core extends Command {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static UUID SearchUUID(String name) {
+        UUID result = null;
+        for (String key : Events.data.getKeys()) {
+            if (Events.data.getString(key+".Name").equals(name)) {
+                result = UUID.fromString(key);
+                break;
+            }
+        }
+        return result;
     }
 
     public String getLocaleMessage(String key, String server) {
@@ -86,11 +98,44 @@ public class Core extends Command {
                 }
             }
         } else if (args[0].equals("ban")) {
-            // Scheduled to be created in Ver 3.5 or 4.0 :(
-            msg = getLocaleMessage("CommandMessages.CoreCommand.Unknown", "");
+            if (args.length == 1) {
+                msg = getLocaleMessage("CommandMessages.CoreCommand.MissingPlayer", "");
+            } else {
+                UUID tUUID = SearchUUID(args[1]);
+                if (tUUID == null) {
+                    msg = getLocaleMessage("CommandMessages.CoreCommand.UnknownPlayer", args[1]);
+                } else {
+                    TextComponent btext;
+                    ProxiedPlayer target = ProxyServer.getInstance().getPlayer(tUUID);
+                    if (args.length == 2) {
+                        btext = new TextComponent(getLocaleMessage("OtherMessages.Kicked", ""));
+                    } else {
+                        StringBuilder reason = new StringBuilder();
+                        for (int i=2; i<=(args.length-1); i++) {
+                            if (i != 2) {reason.append(" ");}
+                            reason.append(args[i]);
+                        }
+                        Events.data.set(tUUID +".BannedReason", reason.toString());
+                        btext = new TextComponent(getLocaleMessage("OtherMessages.KickedWithReason", reason.toString()));
+                    }
+                    if (target != null) {target.disconnect(btext);}
+                    Events.data.set(tUUID +".Banned", true);
+                    msg = getLocaleMessage("CommandMessages.CoreCommand.Banned", args[1]);
+                }
+            }
         } else if (args[0].equals("unban")) {
-            // Scheduled to be created in Ver 3.5 or 4.0 :(
-            msg = getLocaleMessage("CommandMessages.CoreCommand.Unknown", "");
+            if (args.length == 1) {
+                msg = getLocaleMessage("CommandMessages.CoreCommand.MissingPlayer", "");
+            } else {
+                UUID tUUID = SearchUUID(args[1]);
+                if (tUUID == null) {
+                    msg = getLocaleMessage("CommandMessages.CoreCommand.UnknownPlayer", args[1]);
+                } else {
+                    Events.data.set(tUUID +".Banned", false);
+                    Events.data.set(tUUID +".BannedReason", null);
+                    msg = getLocaleMessage("CommandMessages.CoreCommand.Unbanned", args[1]);
+                }
+            }
         } else {
             msg = getLocaleMessage("CommandMessages.CoreCommand.Unknown", "");
         }

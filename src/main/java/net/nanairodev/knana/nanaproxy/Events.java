@@ -18,7 +18,7 @@ import java.util.Objects;
 public class Events implements Listener {
     private static NanaProxy plugin = null;
     private static Configuration config = null;
-    private static Configuration data = null;
+    public static Configuration data = null;
     private static final HashMap<String, Configuration> langs = new HashMap<>();
     public Events(NanaProxy plugin) {
         Events.plugin = plugin;
@@ -76,11 +76,19 @@ public class Events implements Listener {
                     event.getPlayer().disconnect(reason);
                 }
             } else {
+                String key;
+                String oldName = "";
+                if (data.getString(event.getPlayer().getUniqueId().toString()+".Name").equals(event.getPlayer().getName())) {
+                    key = "LogMessages.JoinNetwork";
+                } else {
+                    key = "LogMessages.NameChanged";
+                    oldName = data.getString(event.getPlayer().getUniqueId().toString()+".Name");
+                }
                 if (config.getBoolean("LogMessages.Enable")) {
-                    ProxyServer.getInstance().getLogger().info(getLocaleMessageWithPlayer("LogMessages.JoinNetwork", event.getPlayer(), ""));
+                    ProxyServer.getInstance().getLogger().info(getLocaleMessageWithPlayer(key, event.getPlayer(), oldName));
                 }
                 if (config.getBoolean("PlayerMessages.Enable")) {
-                    broadcast(getLocaleMessageWithPlayer("BroadcastMessages.JoinNetwork", event.getPlayer(), ""));
+                    broadcast(getLocaleMessageWithPlayer(key, event.getPlayer(), oldName));
                 }
             }
         } else {
@@ -88,9 +96,11 @@ public class Events implements Listener {
             data.set(event.getPlayer().getUniqueId().toString()+".Name", event.getPlayer().getName());
             if (config.getBoolean("LogMessages.Enable")) {
                 ProxyServer.getInstance().getLogger().info(getLocaleMessageWithPlayer("LogMessages.JoinNetwork", event.getPlayer(), ""));
+                ProxyServer.getInstance().getLogger().info(getLocaleMessage("LogMessages.FirstJoin", ""));
             }
             if (config.getBoolean("PlayerMessages.Enable")) {
                 broadcast(getLocaleMessageWithPlayer("BroadcastMessages.JoinNetwork", event.getPlayer(), ""));
+                broadcast(getLocaleMessage("BroadcastMessages.FirstJoin", ""));
             }
         }
     }

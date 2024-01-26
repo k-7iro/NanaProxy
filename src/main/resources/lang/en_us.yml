@@ -1,9 +1,13 @@
 BroadcastMessages:
   JoinNetwork: "§e%1$s§b Joined the Network"
+  NameChanged: "§e%1$s §d(formerly known as %2$s) §bJoined the Network"
+  FirstJoin: "§cThis player is joined this network for the first time! Let's celebrate!"
   LeaveNetwork: "§e%1$s§b Leaved the Network"
   MoveServer: "§e%1$s§b has Joined §a%2$s§b"
 LogMessages:
   JoinNetwork: "%1$s Joined the Network"
+  NameChanged: "%1$s (formerly known as %2$s) Joined the Network"
+  FirstJoin: "This player is joined this network for the first time!"
   LeaveNetwork: "%1$s Leaved the Network"
   MoveServer: "%1$s has Joined %2$s"
 CommandMessages:

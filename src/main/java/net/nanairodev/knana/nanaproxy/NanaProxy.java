@@ -13,7 +13,7 @@ import java.io.*;
 import java.nio.file.Files;
 
 public final class NanaProxy extends Plugin {
-    private Configuration config = null;
+    public Configuration config = null;
 
     public void makeConfig(String fName, Boolean empty) throws IOException {
         File file = new File(getDataFolder(), fName);
@@ -69,6 +69,12 @@ public final class NanaProxy extends Plugin {
 
     @Override
     public void onDisable() {
-        ProxyServer.getInstance().getLogger().info("[NanaProxy] Successful Unloaded NanaProxy!");
+        try {
+            ConfigurationProvider.getProvider(YamlConfiguration.class).save(Events.data, new File(getDataFolder(), "config.yml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            ProxyServer.getInstance().getLogger().info("[NanaProxy] Successful Unloaded NanaProxy!");
+        }
     }
 }
