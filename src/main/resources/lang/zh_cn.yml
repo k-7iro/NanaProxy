@@ -1,0 +1,36 @@
+BroadcastMessages:
+  JoinNetwork: "§e%1$s§b 已加入网络"
+  NameChanged: "§e%1$s§d（以前的%2$s）§b已加入网络"
+  FirstJoin: "§c该玩家首次加入该网络！ 让我们庆祝一下吧！"
+  LeaveNetwork: "§e%1$s§b 已与网络断开连接"
+  MoveServer: "§e%1$s§b 加入 §a%2$s§b"
+LogMessages:
+  JoinNetwork: "%1$s 已加入网络"
+  NameChanged: "%1$s（以前的 %2$s）已加入网络"
+  FirstJoin: "该玩家首次加入本网络！"
+  LeaveNetwork: "%1$s 已与网络断开连接"
+  MoveServer: "%1$s 加入了 %2$s"
+  JoinBanned: "尝试连接的 %1$s 被禁止"
+CommandMessages:
+  LobbyCommand:
+    Move: "移至§a%1$s§e..."
+    MoveFailed: "§c您已经在§a%1$s§c中。"
+    Disabled: "§c该命令已被禁用。"
+    ConsoleCantUse: "§c控制台不能使用该命令。"
+  CoreCommand:
+    Info: "§dNanaProxy §b%1$s §3作者：K-Nana\n§f要重新加载插件，请运行 §a/np reload§f。 \n§f要踢一名玩家，请运行 §a/np kick <玩家名称>§f。 \n§f要禁止玩家，请运行 §a/np ban <玩家名称>§f。 \n§f要取消禁止玩家，请运行 §a/np unban <玩家名称>§f。"
+    Kicked: "踢了§6%1$s§e。"
+    Banned: "§6%1$s§e 已被禁止。"
+    Unbanned: "§6%1$s§e 已被解禁。"
+    AlreadyBanned: "§6%1$s§c 已被禁止。"
+    AlreadyUnbanned: "§6%1$s§c 未被禁止。"
+    Reloaded: "§a重新加载完成。"
+    Unknown: "§c未知命令。"
+    MissingPlayer: "§c请指定播放器。"
+    UnknownPlayer: "没有名为 §6%1$s§c 的玩家。"
+OtherMessages:
+  MoveByKick: "§c已从服务器踢出。 移至§a%1$s§6..."
+  Banned: "§c您已被禁止访问该网络"
+  Kicked: "§c已从此网络中踢出"
+  BannedWithReason: "§c您已被禁止使用此网络\n§f原因：%1$s"
+  KickedWithReason: "§c已从此网络中踢出\n§f原因：%1$s"
