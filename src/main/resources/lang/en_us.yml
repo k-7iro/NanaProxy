@@ -10,6 +10,7 @@ LogMessages:
   FirstJoin: "This player is joined this network for the first time!"
   LeaveNetwork: "%1$s Leaved the Network"
   MoveServer: "%1$s has Joined %2$s"
+  JoinBanned: "Banned %1$s attempted to connect"
 CommandMessages:
   LobbyCommand:
     Move: "§eConnecting §a%1$s§e..."
@@ -17,7 +18,7 @@ CommandMessages:
     Disabled: "§cThis command is disabled."
     ConsoleCantUse: "§cConsole Can't use this Command."
   CoreCommand:
-    Info: "§dNanaProxy §b%1$s §3By K-Nana\n§fFor reload plugin, Run §a/np reload"
+    Info: "§dNanaProxy §b%1$s §3By K-Nana\n§fFor reload plugin, Run §a/np reload\n§fFor Kick Player, Run §a/np kick <Player>\n§fFor Ban Player, Run §a/np ban <Player>\n§fFor Unban Player, Run §a/np unban <Player>"
     Kicked: "§eSuccessfully Kicked §6%1$s."
     Banned: "§eSuccessfully Banned §6%1$s."
     Unbanned: "§eSuccessfully Unbanned §6%1$s."

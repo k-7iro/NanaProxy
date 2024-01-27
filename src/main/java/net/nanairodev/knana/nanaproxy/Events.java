@@ -71,6 +71,9 @@ public class Events implements Listener {
                 }
                 event.setCancelReason(reason);
                 event.setCancelled(true);
+                if (config.getBoolean("LogMessages.BannedConnect")) {
+                    ProxyServer.getInstance().getLogger().info(getLocaleMessage("LogMessages.JoinBanned", event.getConnection().getName()));
+                }
             }
         }
     }
@@ -81,16 +84,16 @@ public class Events implements Listener {
             String key;
             String oldName = "";
             if (data.getString(event.getPlayer().getUniqueId().toString()+".Name").equals(event.getPlayer().getName())) {
-                key = "LogMessages.JoinNetwork";
+                key = "JoinNetwork";
             } else {
-                key = "LogMessages.NameChanged";
+                key = "NameChanged";
                 oldName = data.getString(event.getPlayer().getUniqueId().toString()+".Name");
             }
             if (config.getBoolean("LogMessages.Enable")) {
-                ProxyServer.getInstance().getLogger().info(getLocaleMessageWithPlayer(key, event.getPlayer(), oldName));
+                ProxyServer.getInstance().getLogger().info(getLocaleMessageWithPlayer("LogMessages."+key, event.getPlayer(), oldName));
             }
             if (config.getBoolean("PlayerMessages.Enable")) {
-                broadcast(getLocaleMessageWithPlayer(key, event.getPlayer(), oldName));
+                broadcast(getLocaleMessageWithPlayer("BroadcastMessages."+key, event.getPlayer(), oldName));
             }
         } else {
             data.set(event.getPlayer().getUniqueId().toString()+".Banned", false);
@@ -128,11 +131,13 @@ public class Events implements Listener {
 
     @EventHandler
     public void onSvrKick(ServerKickEvent event) {
-        if ((config.getBoolean("LobbyServer.SendOnKick") && (!event.getKickedFrom().getName().equals(config.getString("LobbyServer.ServerID"))))) {
-            TextComponent msg = new TextComponent(getLocaleMessageWithPlayer("BroadcastMessages.MoveServer", event.getPlayer(), config.getString("LobbyServer.ServerID")));
-            event.getPlayer().sendMessage(msg);
-            event.setCancelServer(ProxyServer.getInstance().getServerInfo(config.getString("LobbyServer.ServerID")));
-            event.setCancelled(true);
+        if (event.getPlayer().isConnected()) {
+            if ((config.getBoolean("LobbyServer.SendOnKick") && (!event.getKickedFrom().getName().equals(config.getString("LobbyServer.ServerID"))))) {
+                event.setCancelServer(ProxyServer.getInstance().getServerInfo(config.getString("LobbyServer.ServerID")));
+                event.setCancelled(true);
+                TextComponent msg = new TextComponent(getLocaleMessageWithPlayer("BroadcastMessages.MoveServer", event.getPlayer(), config.getString("LobbyServer.ServerID")));
+                event.getPlayer().sendMessage(msg);
+            }
         }
     }
 }
