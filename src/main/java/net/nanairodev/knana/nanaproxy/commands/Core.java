@@ -36,7 +36,7 @@ public class Core extends Command {
             config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
             File lFolder = new File(plugin.getDataFolder(), "lang");
             for (File lFile : Objects.requireNonNull(lFolder.listFiles())) {
-                langs.put(lFile.getName().split("\\.(?=[^\\.]+$)")[0], ConfigurationProvider.getProvider(YamlConfiguration.class).load(lFile));
+                langs.put(lFile.getName().split("\\.(?=[^.]+$)")[0], ConfigurationProvider.getProvider(YamlConfiguration.class).load(lFile));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -55,14 +55,14 @@ public class Core extends Command {
     }
 
     public String getLocaleMessage(String key, String server) {
-        String msg = "";
+        String msg;
         Configuration lang = langs.get(config.getString("Language"));
         msg = String.format(lang.getString(key), server);
         return msg;
     }
 
     public void execute(CommandSender sender, String[] args) {
-        String msg = "";
+        String msg;
         if (args.length == 0) {
             msg = getLocaleMessage("CommandMessages.CoreCommand.Info", plugin.getDescription().getVersion());
         } else if (args[0].equals("reload")) {
