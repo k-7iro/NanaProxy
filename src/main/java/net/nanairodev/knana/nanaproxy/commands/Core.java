@@ -97,6 +97,30 @@ public class Core extends Command {
                     msg = getLocaleMessage("CommandMessages.CoreCommand.Kicked", args[1]);
                 }
             }
+        } else if (args[0].equals("lkick")||args[0].equals("lobbykick")||args[0].equals("hkick")||args[0].equals("hubkick")) {
+            if (args.length == 1) {
+                msg = getLocaleMessage("CommandMessages.CoreCommand.MissingPlayer", "");
+            } else {
+                ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[1]);
+                if (target == null) {
+                    msg = getLocaleMessage("CommandMessages.CoreCommand.UnknownPlayer", args[1]);
+                } else {
+                    TextComponent kmsg;
+                    if (args.length == 2) {
+                        kmsg = new TextComponent(getLocaleMessage("OtherMessages.Kicked", ""));
+                    } else {
+                        StringBuilder reason = new StringBuilder();
+                        for (int i=2; i<=(args.length-1); i++) {
+                            if (i != 2) {reason.append(" ");}
+                            reason.append(args[i]);
+                        }
+                        kmsg = new TextComponent(getLocaleMessage("OtherMessages.KickedWithReason", reason.toString()));
+                    }
+                    target.connect(ProxyServer.getInstance().getServerInfo(config.getString("LobbyServer.ServerID")));
+                    target.sendMessage(kmsg);
+                    msg = getLocaleMessage("CommandMessages.CoreCommand.LobbyKicked", args[1]);
+                }
+            }
         } else if (args[0].equals("ban")) {
             if (args.length == 1) {
                 msg = getLocaleMessage("CommandMessages.CoreCommand.MissingPlayer", "");

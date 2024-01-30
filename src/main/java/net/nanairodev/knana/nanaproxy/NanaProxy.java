@@ -48,6 +48,7 @@ public final class NanaProxy extends Plugin {
             makeConfig("config.yml", false);
             makeConfig("lang/ja_jp.yml", false);
             makeConfig("lang/en_us.yml", false);
+            makeConfig("lang/zh_cn.yml", false);
             makeConfig("data.yml", true);
         } catch (IOException e) {
             throw new RuntimeException(e);

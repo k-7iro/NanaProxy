@@ -6,7 +6,7 @@
 
     <groupId>net.nanairodev.knana</groupId>
     <artifactId>NanaProxy</artifactId>
-    <version>4.0</version>
+    <version>4.1</version>
     <packaging>jar</packaging>
 
     <name>NanaProxy</name>

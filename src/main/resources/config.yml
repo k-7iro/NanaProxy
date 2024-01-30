@@ -1,4 +1,4 @@
-# NanaProxy 4.0 By K-Nana
+# NanaProxy 4.1 By K-Nana
 Language: "en_us" # By default, en_us and ja_jp are available. You can also register a new language by copying the language file and giving it an appropriate name.
 PlayerMessages:
   Enable: true # Whether to broadcast to all players on the network when joining, disconnect, or moving servers.

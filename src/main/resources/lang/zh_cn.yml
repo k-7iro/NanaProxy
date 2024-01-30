@@ -18,8 +18,9 @@ CommandMessages:
     Disabled: "§c该命令已被禁用。"
     ConsoleCantUse: "§c控制台不能使用该命令。"
   CoreCommand:
-    Info: "§dNanaProxy §b%1$s §3作者：K-Nana\n§f要重新加载插件，请运行 §a/np reload§f。 \n§f要踢一名玩家，请运行 §a/np kick <玩家名称>§f。 \n§f要禁止玩家，请运行 §a/np ban <玩家名称>§f。 \n§f要取消禁止玩家，请运行 §a/np unban <玩家名称>§f。"
+    Info: "§dNanaProxy §b%1$s §3作者：K-Nana\n§f要重新加载插件，请运行 §a/np reload§f。\n§f要踢一名玩家，请运行 §a/np kick <玩家名称>§f。\n§f要强制玩家进入大厅，请运行 §a/np lkick <玩家名称> [原因]§f 或 §a/np hkick <玩家名称> [原因]§f。\n§f要禁止玩家，请运行 §a/np ban <玩家名称>§f。 \n§f要取消禁止玩家，请运行 §a/np unban <玩家名称>§f。"
     Kicked: "踢了§6%1$s§e。"
+    LobbyKicked: "§e成功将§6%1$s§e转移到大厅。"
     Banned: "§6%1$s§e 已被禁止。"
     Unbanned: "§6%1$s§e 已被解禁。"
     AlreadyBanned: "§6%1$s§c 已被禁止。"

@@ -18,8 +18,9 @@ CommandMessages:
     Disabled: "§cこのコマンドは無効化されています。"
     ConsoleCantUse: "§cコンソールはこのコマンドを使用できません。"
   CoreCommand:
-    Info: "§dNanaProxy §b%1$s §3By K-Nana\n§fプラグインを再読み込みするには、§a/np reload§fを実行してください。\n§fプレイヤーをKickするには、§a/np kick <プレイヤー名>§fを実行してください。\n§fプレイヤーをBanするには、§a/np ban <プレイヤー名>§fを実行してください。\n§fプレイヤーのBanを解除するには、§a/np unban <プレイヤー名>§fを実行してください。"
+    Info: "§dNanaProxy §b%1$s §3By K-Nana\n§fプラグインを再読み込みするには、§a/np reload§fを実行してください。\n§fプレイヤーをKickするには、§a/np kick <プレイヤー名>§fを実行してください。\n§fプレイヤーをロビーに強制的に転送させるには、§a/np lkick <プレイヤー名> [理由]§fまたは§a/np hkick <プレイヤー名> [理由]§fを実行してください。\n§fプレイヤーをBanするには、§a/np ban <プレイヤー名>§fを実行してください。\n§fプレイヤーのBanを解除するには、§a/np unban <プレイヤー名>§fを実行してください。"
     Kicked: "§6%1$s§eをKickしました。"
+    LobbyKicked: "§6%1$s§eをロビーに転送しました。"
     Banned: "§6%1$s§eをBanしました。"
     Unbanned: "§6%1$s§eのBanを解除しました。"
     AlreadyBanned: "§6%1$s§cは既にBanされています。"
